@@ -1,0 +1,8 @@
+#container{
+	border: 16px solid black;
+	border-width: 3px;
+	width: 960px;
+	height: 540px;
+	background-image: url("../resource/background.jpg");
+}
+}
