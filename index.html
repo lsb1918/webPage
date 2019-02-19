@@ -2,10 +2,18 @@
 	<head>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script><!-- 항상 최신버전의 JQuery를 사용가능하다. -->
 		<script src="js/Setting.js"></script>
-		<script src="js/LoadingScene.js"></script>
+		<script src="js/Util.js"></script>
+		<script src="js/UIManager.js"></script>
+		<script src="js/Scene/TitleScene.js"></script>
+		<script src="js/Scene/LoadingScene.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
-		<canvas id="container"></canvas>
+		<canvas id="container" width="960px" height="540px"></canvas>
+		<script type="text/javascript">
+			window.onload = function(){
+				UIManager.init();
+			}
+		</script>
 	</body>
 </html>

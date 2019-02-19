@@ -1,5 +1,5 @@
 var canvas;
-var g;
+var ctx;
 
 
 var UIManager = new function(){
@@ -7,9 +7,14 @@ var UIManager = new function(){
 
     this.init = function(){
         canvas = document.getElementById("container");
-        g = canvas.getContext("2d");
+        ctx = canvas.getContext("2d");
         curScene = TitleScene;
-        curScene.init();
+        curScene.init(function(){
+            console.log(curScene.toString() + " Init!!");
+            curScene.start(function(){
+                console.log(curScene.toString() + " Start!!");
+            });
+        });
 
         this.update;
         console.log("UIManager Init!!");
@@ -17,10 +22,10 @@ var UIManager = new function(){
 
     this.update = setInterval(() => {
         curScene.update(); 
-    }, 300);
+    }, 100);
 
-    this.paint = function(){
-        g.clearRect(0, 0, g.cavas.width, g.canvas.height);
+    this.repaint = function(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         curScene.render();
     };
 
