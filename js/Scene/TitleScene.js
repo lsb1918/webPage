@@ -12,6 +12,7 @@ var TitleScene = new function(){
             setTimeout(function(){
                 $('#loading').hide();
                 $('#container').show();
+                $('#keyArea').show();
             }, 1000);
         },
         update: function(){
