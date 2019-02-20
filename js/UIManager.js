@@ -8,6 +8,9 @@ var UIManager = new function(){
     this.init = function(){
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
+
+        document.addEventListener("keydown", this.keyDownHandler, false);
+
         curScene = TitleScene;
         curScene.init(function(){
             console.log(curScene.toString() + " Init!!");
@@ -49,5 +52,13 @@ var UIManager = new function(){
                 });
             });
         });
+    };
+
+    this.keyDownHandler = function(e){
+        e = e || window.event;
+        // console.log(e);
+
+        curScene.keyPressed(e);
+        console.log(curScene.toString() + " >>> " + e.keyCode);
     };
 };

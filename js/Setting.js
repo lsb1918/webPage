@@ -1,11 +1,5 @@
-var Setting = new function(){
-    
-
-    return{
-        init: function() {},
-        start: function() {},
-        render: function() {},
-        destroy: function() {},
-        keyPressed: function() {}
-    };
-};
+let KEY_ENTER = 13;
+let KEY_LEFT =  37;
+let KEY_RIGHT = 39;
+let KEY_UP =    38;
+let KEY_DOWN =  40;

@@ -9,6 +9,10 @@ var TitleScene = new function(){
         },
         start: function(onLoad) {
             onLoad();
+            setTimeout(function(){
+                $('#loading').hide();
+                $('#container').show();
+            }, 1000);
         },
         update: function(){
             count++;
@@ -17,7 +21,6 @@ var TitleScene = new function(){
         render: function() {
             ctx.drawImage(background, 0, 0);
             if(count < 20){
-                console.log("11");
                 ctx.font = "bold 40px malgun gothic";
                 ctx.fillText("Press Enter", 500, 270);
             }else{
@@ -29,7 +32,22 @@ var TitleScene = new function(){
         destroy: function(callback) {
             callback();
         },
-        keyPressed: function() {},
+        keyPressed: function(e) {
+            console.log(e.keyCode);
+            switch(e.keyCode){
+                case KEY_LEFT:
+                    break;
+                case KEY_RIGHT:
+                    break;
+                case KEY_UP:
+                    break;
+                case KEY_DOWN:
+                    break;
+                case KEY_ENTER:
+                    UIManager.changeScene(CharSelectScene);
+                    break;
+            }
+        },
         toString: function() {
             return "TitleScene";
         }
