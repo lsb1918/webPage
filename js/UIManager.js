@@ -6,7 +6,7 @@ var UIManager = new function(){
     var curScene;
 
     this.init = function(){
-        canvas = document.getElementById("container");
+        canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
         curScene = TitleScene;
         curScene.init(function(){

@@ -9,7 +9,10 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
-		<canvas id="container" width="960px" height="540px"></canvas>
+		<div class="loading" id="loading"></div>
+		<div class="container" id="container" style="display: none;">
+			<canvas id="canvas" width="960px" height="540px"></canvas>
+		</div>
 		<script type="text/javascript">
 			window.onload = function(){
 				UIManager.init();
