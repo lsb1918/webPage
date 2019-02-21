@@ -10,6 +10,19 @@ var UIManager = new function(){
         ctx = canvas.getContext("2d");
 
         document.addEventListener("keydown", this.keyDownHandler, false);
+        var arrowBack = document.getElementById("arrowBack");
+        var arrawLeft = document.getElementById("arrawLeft");
+        var arrawRight = document.getElementById("arrawRight");
+        var arrawUp = document.getElementById("arrawUp");
+        var arrawDown = document.getElementById("arrawDown");
+        var ok = document.getElementById("ok");
+
+        arrowBack.addEventListener("click", this.prevKeyPressed, false);
+        arrawLeft.addEventListener("click", this.leftKeyPressed, false);
+        arrawRight.addEventListener("click", this.rightPressed, false);
+        arrawUp.addEventListener("click", this.upKeyPressed, false);
+        arrawDown.addEventListener("click", this.downKeyPressed, false);
+        ok.addEventListener("click", this.okKeyPressed, false);
 
         curScene = TitleScene;
         curScene.init(function(){
@@ -56,9 +69,51 @@ var UIManager = new function(){
 
     this.keyDownHandler = function(e){
         e = e || window.event;
-        // console.log(e);
 
         curScene.keyPressed(e);
         console.log(curScene.toString() + " >>> " + e.keyCode);
     };
+
+    ///////마우스 클릭 이벤트///////
+    this.prevKeyPressed = function(e){
+        e.keyCode = KEY_PREV;
+
+        curScene.keyPressed(e);
+        console.log("[Click] " + curScene.toString() + " >>> " + e.keyCode);
+    };
+
+    this.leftKeyPressed = function(e){
+        e.keyCode = KEY_LEFT;
+
+        curScene.keyPressed(e);
+        console.log("[Click] " + curScene.toString() + " >>> " + e.keyCode);
+    };
+
+    this.rightPressed = function(e){
+        e.keyCode = KEY_RIGHT;
+
+        curScene.keyPressed(e);
+        console.log("[Click] " + curScene.toString() + " >>> " + e.keyCode);
+    }
+
+    this.upKeyPressed = function(e){
+        e.keyCode = KEY_UP;
+
+        curScene.keyPressed(e);
+        console.log("[Click] " + curScene.toString() + " >>> " + e.keyCode);
+    };
+
+    this.downKeyPressed = function(e){
+        e.keyCode = KEY_DOWN;
+
+        curScene.keyPressed(e);
+        console.log("[Click] " + curScene.toString() + " >>> " + e.keyCode);
+    };
+
+    this.okKeyPressed = function(e){
+        e.keyCode = KEY_ENTER;
+
+        curScene.keyPressed(e);
+        console.log("[Click] " + curScene.toString() + " >>> " + e.keyCode);
+    }
 };

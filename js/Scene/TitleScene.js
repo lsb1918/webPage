@@ -34,7 +34,6 @@ var TitleScene = new function(){
             callback();
         },
         keyPressed: function(e) {
-            console.log(e.keyCode);
             switch(e.keyCode){
                 case KEY_LEFT:
                     break;
