@@ -1,11 +1,15 @@
 var TitleScene = new function(){
     var background;
+    var charactersImg;
+
     var count;
 
     return{
         init: function(onLoad) {
             count = 0;
-            background = Util.imgLoad("resource/title.jpg", onLoad);
+            background = Util.imgLoad("resource/title.jpg", function(){
+                onLoad();
+            });
         },
         start: function(onLoad) {
             onLoad();

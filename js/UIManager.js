@@ -29,11 +29,10 @@ var UIManager = new function(){
             console.log(curScene.toString() + " Init!!");
             curScene.start(function(){
                 console.log(curScene.toString() + " Start!!");
+                this.update;
+                console.log("UIManager Init!!");
             });
-        });
-
-        this.update;
-        console.log("UIManager Init!!");
+        });        
     };
 
     this.update = setInterval(() => {

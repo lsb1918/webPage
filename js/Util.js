@@ -11,5 +11,12 @@ var Util = new function(){
         
         return img;
     }
+
+    this.imgArrLoad = function(imgPaths, callback){
+        for(var i = 0; i < imgPaths.length; i++){
+            var img = new Image();
+            img.src = imgPath;
+        }
+    }
 }
 
