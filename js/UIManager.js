@@ -48,12 +48,13 @@ var UIManager = new function(){
         clearInterval(this.update);
     };
 
-    this.changeScene = function(scene){
+    this.changeScene = function(scene, data){
         if(scene == curScene){
             console.log("Same Scene..");
             return;
         }
 
+        Loading.start();
         curScene.destroy(function(){
             console.log(curScene.toString() + " Destroy!!");
             curScene = scene;
@@ -61,15 +62,21 @@ var UIManager = new function(){
                 console.log(curScene.toString() + " Init!!");
                 curScene.start(function(){
                     console.log(curScene.toString() + " Start!!");
+                    Loading.stop();
                 });
-            });
+            }, data);
         });
     };
 
     this.keyDownHandler = function(e){
         e = e || window.event;
 
-        curScene.keyPressed(e);
+        if(Loading.isLoading()) {
+            console.log("Loading.....");
+        }else{
+            curScene.keyPressed(e);
+        }
+
         console.log(curScene.toString() + " >>> " + e.keyCode);
     };
 
@@ -116,3 +123,21 @@ var UIManager = new function(){
         console.log("[Click] " + curScene.toString() + " >>> " + e.keyCode);
     }
 };
+
+var Loading = new function(){
+    this.start = function(){
+        $('#loading').show();
+        $('#container').hide();
+        $('#keyArea').hide();
+    }
+
+    this.stop = function(){
+        $('#loading').hide();
+        $('#container').show();
+        $('#keyArea').show();
+    }
+
+    this.isLoading = function(){
+        return $('#loading').css("display") != "none" ? true : false;
+    }
+}

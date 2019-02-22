@@ -1,23 +1,19 @@
 var TitleScene = new function(){
     var background;
-    var charactersImg;
 
     var count;
 
     return{
         init: function(onLoad) {
             count = 0;
-            background = Util.imgLoad("resource/title.jpg", function(){
-                onLoad();
-            });
+            Util.imgLoad(background = new Image(), "resource/title.jpg", onLoad);
         },
         start: function(onLoad) {
-            onLoad();
             setTimeout(function(){
-                $('#loading').hide();
-                $('#container').show();
-                $('#keyArea').show();
+                Loading.stop();
             }, 1000);
+
+            onLoad();
         },
         update: function(){
             count++;
@@ -35,6 +31,8 @@ var TitleScene = new function(){
             }
         },
         destroy: function(callback) {
+            background = null;
+            count = null;
             callback();
         },
         keyPressed: function(e) {
