@@ -7,13 +7,16 @@ var LoadingScene = new function(){
         init: function(onLoad, data) {
             charObj = data;
             loadingWidth = 20;
-            Util.imgLoad(loadingImg = new Image(), "resource/loading.png", onLoad);
+            Util.imgLoad(loadingImg = new Image(), "resource/loading.png", function(){
+                MapManager.init(onLoad);
+            });
         },
         start: function(onLoad) {
             onLoad();
         },
         update: function(){
-            if(loadingWidth < 350) loadingWidth += 10;
+            if(loadingWidth < 350) loadingWidth += 30;
+            else UIManager.changeScene(GameScene, charObj);
             UIManager.repaint();
         },
         render: function() {
