@@ -9,6 +9,7 @@ var Player = function(data){
 	
 	this.init = function(){
         charIdx = [1, 1];
+        score = 0;
         startPosX = 290;
         startPosY = 50;
 	}
@@ -21,7 +22,13 @@ var Player = function(data){
 		
 	}
 	
-	this.render = function(){		
+	this.render = function(){
+        ctx.fillStyle = "#000000";
+        ctx.font = "bold 20px malgun gothic";
+        ctx.fillText("ESC : 뒤로가기", 20, 50);
+
+        ctx.font = "bold 20px malgun gothic";
+        ctx.fillText("Score : " + score, 20, 80);
         charObj.render(startPosX + (40 * charIdx[0]), startPosY + (40 * charIdx[1]), 40, 40);
     }
 
@@ -97,6 +104,10 @@ var Player = function(data){
     var FishCollision = function(x, y){
         charIdx[0] = x;
         charIdx[1] = y;
+        score++;
+
+        MapManager.setMapData(x, y, 1);
+
         console.log("Collision Fish...");
     }
 

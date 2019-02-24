@@ -18,11 +18,11 @@ var MapManager = new function(){
             mapObject[i].init();
         }
 
-        this.setMapData();
+        this.initMapData();
         Util.imgLoad(waterImg = new Image(), "resource/object/map.png", onLoad);
     }
 
-    this.setMapData = function(){
+    this.initMapData = function(){
         mapData = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 2, 2, 2, 1, 1, 1, 2, 2, 2, 0],
@@ -51,6 +51,10 @@ var MapManager = new function(){
         mapObject = null;
         mapData = null;
         waterImg = null;
+    }
+
+    this.setMapData = function(x, y, data){
+        mapData[x][y] = data;
     }
 
     this.getMapObject = function(x, y){
