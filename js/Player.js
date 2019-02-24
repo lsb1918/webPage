@@ -88,6 +88,9 @@ var Player = function(data){
     }
 
     var WaterCollision = function(x, y){
+        MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
+        MapManager.setMapData(x, y, NUM_ICE);
+
         charIdx[0] = x;
         charIdx[1] = y;
         console.log("Collision Water...");
@@ -97,8 +100,6 @@ var Player = function(data){
         charIdx[0] = x;
         charIdx[1] = y;
 
-        MapManager.setMapData(x, y, 2);
-
         console.log("Collision Ice...");
     }
 
@@ -107,11 +108,12 @@ var Player = function(data){
     }
 
     var FishCollision = function(x, y){
+        MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
+        MapManager.setMapData(x, y, NUM_ICE);
+
         charIdx[0] = x;
         charIdx[1] = y;
         score++;
-
-        MapManager.setMapData(x, y, 1);
 
         console.log("Collision Fish...");
     }
