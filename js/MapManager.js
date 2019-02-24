@@ -29,7 +29,7 @@ var MapManager = new function(){
             [0, 2, 1, 1, 1, 4, 1, 1, 1, 2, 0],
             [0, 2, 1, 1, 1, 1, 1, 1, 1, 2, 0],
             [0, 1, 1, 1, 3, 1, 3, 1, 1, 1, 0],
-            [0, 1, 4, 1, 1, 1, 1, 1, 4, 1, 0],
+            [0, 1, 4, 1, 1, 5, 1, 1, 4, 1, 0],
             [0, 1, 1, 1, 3, 1, 3, 1, 1, 1, 0],
             [0, 2, 1, 1, 1, 1, 1, 1, 1, 2, 0],
             [0, 2, 1, 1, 1, 4, 1, 1, 1, 2, 0],
@@ -53,7 +53,7 @@ var MapManager = new function(){
         waterImg = null;
     }
 
-    this.getMapData = function(){
-        return mapData;
+    this.getMapObject = function(x, y){
+        return mapObject[mapData[x][y]];
     }
 }
