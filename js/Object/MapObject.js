@@ -22,7 +22,7 @@ Wall.prototype.name = null;
 Wall.prototype.type = null;
 Wall.prototype.init = function(){
     this.name = "wall";
-    this.type = 0;
+    this.type = NUM_WALL;
     Util.imgLoad(this.img = new Image(), "resource/object/wall.png");
 }
 
@@ -33,7 +33,7 @@ Water.prototype.name = null;
 Water.prototype.type = null;
 Water.prototype.init = function(){
     this.name = "water";
-    this.type = 1;
+    this.type = NUM_WATER;
     Util.imgLoad(this.img = new Image(), "resource/object/map.png");
 }
 
@@ -44,7 +44,7 @@ Ice.prototype.name = null;
 Ice.prototype.type = null;
 Ice.prototype.init = function(){
     this.name = "ice";
-    this.type = 2;
+    this.type = NUM_ICE;
     Util.imgLoad(this.img = new Image(), "resource/object/ice2.png");
 }
 
@@ -55,7 +55,7 @@ Rock.prototype.name = null;
 Rock.prototype.type = null;
 Rock.prototype.init = function(){
     this.name = "rock";
-    this.type = 3;
+    this.type = NUM_ROCK;
     Util.imgLoad(this.img = new Image(), "resource/object/rock.png");
 }
 
@@ -68,7 +68,7 @@ Fish.prototype.name = null;
 Fish.prototype.type = null;
 Fish.prototype.init = function(){
     this.name = "fish";
-    this.type = 4;
+    this.type = NUM_FISH;
     this.count = 0;
     Util.imgLoad(this.img = new Image(), "resource/object/fish.png");
 }
@@ -85,6 +85,6 @@ Igloo.prototype.name = null;
 Igloo.prototype.type = null;
 Igloo.prototype.init = function(){
     this.name = "igloo";
-    this.type = 5;
+    this.type = NUM_IGLOO;
     Util.imgLoad(this.img = new Image(), "resource/object/igloo.png");
 }

@@ -13,23 +13,21 @@ var Player = function(data){
         startPosX = 290;
         startPosY = 50;
 	}
-	
-	this.start = function(){
-		
-	}
 
 	this.update = function(){
 		
 	}
 	
 	this.render = function(){
-        ctx.fillStyle = "#000000";
-        ctx.font = "bold 20px malgun gothic";
-        ctx.fillText("ESC : 뒤로가기", 20, 50);
-
-        ctx.font = "bold 20px malgun gothic";
-        ctx.fillText("Score : " + score, 20, 80);
         charObj.render(startPosX + (40 * charIdx[0]), startPosY + (40 * charIdx[1]), 40, 40);
+    }
+
+    this.destroy = function(){
+        charObj = null;
+        score = null;
+        charIdx = null;
+        startPosX = null;
+        startPosY = null;
     }
 
 	this.keyAction = function( keyCode ) {
@@ -53,6 +51,10 @@ var Player = function(data){
 		}
     }
 
+    this.getScore = function(){
+        return score;
+    }
+
     var collision = function(moveX, moveY){
         var nextIdxX = charIdx[0] + moveX;
         var nextIdxY = charIdx[1] + moveY;
@@ -60,22 +62,22 @@ var Player = function(data){
         var nextObjType = MapManager.getMapObject(nextIdxX, nextIdxY).getType();
 
         switch(nextObjType){
-            case 0 :
+            case NUM_WALL :
                 wallCollision();
                 break;
-            case 1 :
+            case NUM_WATER :
                 WaterCollision(nextIdxX, nextIdxY);
                 break;
-            case 2 :
+            case NUM_ICE :
                 IceCollision(nextIdxX, nextIdxY);
                 break;
-            case 3 :
+            case NUM_ROCK :
                 RockCollision();
                 break;
-            case 4 :
+            case NUM_FISH :
                 FishCollision(nextIdxX, nextIdxY);
                 break;
-            case 5 :
+            case NUM_IGLOO :
                 IglooCollision(nextIdxX, nextIdxY);
                 break;
         }
@@ -94,6 +96,9 @@ var Player = function(data){
     var IceCollision = function(x, y){
         charIdx[0] = x;
         charIdx[1] = y;
+
+        MapManager.setMapData(x, y, 2);
+
         console.log("Collision Ice...");
     }
 
