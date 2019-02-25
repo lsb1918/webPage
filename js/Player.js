@@ -22,6 +22,10 @@ var Player = function(data){
     var frameCnt = 0;
 
     var isMove;
+    var isSliding;
+
+    var slidingX;
+    var slidingY;
 	
 	this.init = function(){
         charIdx = [1, 1];
@@ -51,6 +55,11 @@ var Player = function(data){
         }else{
             frameCnt = 0;
             isMove = 0;
+
+            if(isSliding){
+                console.log(slidingX + ", " + slidingY);
+				collision(slidingX, slidingY);
+			}
         }
 	}
 	
@@ -67,6 +76,10 @@ var Player = function(data){
     }
 
 	this.keyAction = function( keyCode ) {
+        if(isMove){ //이동중에는 키 안먹게 함
+			return;
+		}
+
 		switch ( keyCode ) {
             case KEY_ENTER:
                 break;
@@ -92,6 +105,8 @@ var Player = function(data){
     }
 
     var collision = function(moveX, moveY){
+        slidingX = moveX;
+        slidingY = moveY;
         var nextIdxX = charIdx[0] + moveX;
         var nextIdxY = charIdx[1] + moveY;
 
@@ -120,10 +135,13 @@ var Player = function(data){
     }
 
     var wallCollision = function(){
+        isMove = false;
+		isSliding = false;
         console.log("Collision wall...");
     }
 
     var WaterCollision = function(moveX, moveY){
+        isSliding = true;
         isMove = true;
 
         MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
@@ -143,6 +161,10 @@ var Player = function(data){
     }
 
     var IceCollision = function(moveX, moveY){
+        if(isSliding){
+			isSliding = false;
+			return;
+		}
         isMove = true;
 
         _sx = startPosX + ( charIdx[0] * 40);
@@ -160,10 +182,13 @@ var Player = function(data){
     }
 
     var RockCollision = function(){
+        isMove = false;
+		isSliding = false;
         console.log("Collision Rock...");
     }
 
     var FishCollision = function(moveX, moveY){
+        isSliding = true;
         isMove = true;
 
         MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
@@ -185,8 +210,22 @@ var Player = function(data){
     }
 
     var IglooCollision = function(moveX, moveY){
-        charIdx[0] = x;
-        charIdx[1] = y;
+        if(isSliding){
+			isSliding = false;
+			return;
+        }
+        
+        isMove = true;
+        
+        _sx = startPosX + ( charIdx[0] * 40);
+		_sy = startPosY + ( charIdx[1] * 40);
+		
+		charIdx[0] = charIdx[0] + moveX;
+		charIdx[1] = charIdx[1] + moveY;
+		
+		_dx = startPosX + ( charIdx[0] * 40);
+        _dy = startPosY + ( charIdx[1] * 40);
+        
         console.log("Collision Igloo...");
     }
     
