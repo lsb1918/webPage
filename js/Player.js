@@ -6,20 +6,56 @@ var Player = function(data){
     var charIdx;
     var startPosX;
     var startPosY;
+
+    //실제 화면에 출력됨
+	var _x;
+	var _y;
+	
+	//출발 지점
+	var _sx;
+	var _sy;
+	
+	//도착 지점
+	var _dx;
+    var _dy;
+    
+    var frameCnt = 0;
+
+    var isMove;
 	
 	this.init = function(){
         charIdx = [1, 1];
         score = 0;
         startPosX = 290;
         startPosY = 50;
+        
+        isMove = false;
+
+		_sx = startPosX + ( charIdx[0] * 40);
+		_sy = startPosY + ( charIdx[1] * 40);
+		
+		_dx = _sx;
+		_dy = _sy;
+		
+		_x = _dx;
+		_y = _dy;
+		
+        frameCnt = 0;
 	}
 
 	this.update = function(){
-		
+        if(frameCnt < 5 && isMove){
+            frameCnt++;
+            _x = linearTween( frameCnt, _sx, _dx - _sx, 5 );
+            _y = linearTween( frameCnt, _sy, _dy - _sy, 5 );
+        }else{
+            frameCnt = 0;
+            isMove = 0;
+        }
 	}
 	
 	this.render = function(){
-        charObj.render(startPosX + (40 * charIdx[0]), startPosY + (40 * charIdx[1]), 40, 40);
+        charObj.render(_x, _y, 40, 40);
     }
 
     this.destroy = function(){
@@ -66,19 +102,19 @@ var Player = function(data){
                 wallCollision();
                 break;
             case NUM_WATER :
-                WaterCollision(nextIdxX, nextIdxY);
+                WaterCollision(moveX, moveY);
                 break;
             case NUM_ICE :
-                IceCollision(nextIdxX, nextIdxY);
+                IceCollision(moveX, moveY);
                 break;
             case NUM_ROCK :
                 RockCollision();
                 break;
             case NUM_FISH :
-                FishCollision(nextIdxX, nextIdxY);
+                FishCollision(moveX, moveY);
                 break;
             case NUM_IGLOO :
-                IglooCollision(nextIdxX, nextIdxY);
+                IglooCollision(moveX, moveY);
                 break;
         }
     }
@@ -87,18 +123,38 @@ var Player = function(data){
         console.log("Collision wall...");
     }
 
-    var WaterCollision = function(x, y){
-        MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
-        MapManager.setMapData(x, y, NUM_ICE);
+    var WaterCollision = function(moveX, moveY){
+        isMove = true;
 
-        charIdx[0] = x;
-        charIdx[1] = y;
+        MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
+
+		_sx = startPosX + ( charIdx[0] * 40);
+		_sy = startPosY + ( charIdx[1] * 40);
+		
+		charIdx[0] = charIdx[0] + moveX;
+		charIdx[1] = charIdx[1] + moveY;
+
+		MapManager.setMapData(charIdx[0], charIdx[1], NUM_ICE);
+		
+		_dx = startPosX + ( charIdx[0] * 40);
+		_dy = startPosY + ( charIdx[1] * 40);
+
         console.log("Collision Water...");
     }
 
-    var IceCollision = function(x, y){
-        charIdx[0] = x;
-        charIdx[1] = y;
+    var IceCollision = function(moveX, moveY){
+        isMove = true;
+
+        _sx = startPosX + ( charIdx[0] * 40);
+		_sy = startPosY + ( charIdx[1] * 40);
+		
+		charIdx[0] = charIdx[0] + moveX;
+		charIdx[1] = charIdx[1] + moveY;
+		
+		_dx = startPosX + ( charIdx[0] * 40);
+        _dy = startPosY + ( charIdx[1] * 40);
+        
+        MapManager.setMapData(charIdx[0], charIdx[1], NUM_ICE);
 
         console.log("Collision Ice...");
     }
@@ -107,18 +163,28 @@ var Player = function(data){
         console.log("Collision Rock...");
     }
 
-    var FishCollision = function(x, y){
-        MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
-        MapManager.setMapData(x, y, NUM_ICE);
+    var FishCollision = function(moveX, moveY){
+        isMove = true;
 
-        charIdx[0] = x;
-        charIdx[1] = y;
+        MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
+
+		_sx = startPosX + ( charIdx[0] * 40);
+		_sy = startPosY + ( charIdx[1] * 40);
+		
+		charIdx[0] = charIdx[0] + moveX;
+		charIdx[1] = charIdx[1] + moveY;
+
+		MapManager.setMapData(charIdx[0], charIdx[1], NUM_ICE);
+		
+		_dx = startPosX + ( charIdx[0] * 40);
+        _dy = startPosY + ( charIdx[1] * 40);
+        
         score++;
 
         console.log("Collision Fish...");
     }
 
-    var IglooCollision = function(x, y){
+    var IglooCollision = function(moveX, moveY){
         charIdx[0] = x;
         charIdx[1] = y;
         console.log("Collision Igloo...");

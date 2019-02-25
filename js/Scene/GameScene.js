@@ -15,6 +15,7 @@ var GameScene = new function(){
             onLoad();
         },
         update: function(){
+            player.update();
             UIManager.repaint();
         },
         render: function() {
