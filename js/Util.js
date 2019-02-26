@@ -8,18 +8,5 @@ var Util = new function(){
             if(callback) callback();
         }
     }
-
-    this.imgArrLoad = function(imgData, callback){
-        for(var i = 0; i < imgData.length; i++){
-            this.imgLoad(imgData[i][0], imgData[i][1], function(){
-                if(i == imgData.length){
-                    imgData[i - 1][0].onload = function(){
-                        console.log("Image Arr Load success!! ");
-                        callback();
-                    }
-                }
-            });
-        }
-    }
 }
 

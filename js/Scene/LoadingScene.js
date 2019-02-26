@@ -7,16 +7,29 @@ var LoadingScene = new function(){
         init: function(onLoad, data) {
             charObj = data;
             loadingWidth = 20;
-            Util.imgLoad(loadingImg = new Image(), "resource/loading.png", function(){
+            
+            Util.imgLoad(loadingImg = new Image(), "resource/loading.png");
+            Util.imgLoad(wallImg = new Image(), "resource/object/wall.png");
+            Util.imgLoad(waterImg = new Image(), "resource/object/map.png");
+            Util.imgLoad(iceImg = new Image(), "resource/object/ice2.png");
+            Util.imgLoad(rockImg = new Image(), "resource/object/rock.png");
+            Util.imgLoad(fishImg = new Image(), "resource/object/fish.png");
+            Util.imgLoad(iglooImg = new Image(), "resource/object/igloo.png", function(){
+                loadingWidth += 30;
                 MapManager.init(onLoad);
             });
+            
         },
         start: function(onLoad) {
             onLoad();
         },
         update: function(){
-            if(loadingWidth < 350) loadingWidth += 30;
-            else UIManager.changeScene(GameScene, charObj);
+            if(loadingWidth < 350) {
+                loadingWidth += 30;
+            }else {
+                loadingWidth = 350;
+                UIManager.changeScene(GameScene, charObj);
+            }
             UIManager.repaint();
         },
         render: function() {

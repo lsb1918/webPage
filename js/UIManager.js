@@ -1,8 +1,8 @@
 var canvas;
 var ctx;
 
-
 var UIManager = new function(){
+    var INTERVAL;
     var curScene;
 
     this.init = function(){
@@ -29,23 +29,26 @@ var UIManager = new function(){
             console.log(curScene.toString() + " Init!!");
             curScene.start(function(){
                 console.log(curScene.toString() + " Start!!");
-                this.update;
+                UIManager.updateStart();
                 console.log("UIManager Init!!");
             });
         });        
     };
 
-    this.update = setInterval(() => {
-        curScene.update(); 
-    }, 100);
+    this.updateStart = function(){
+        INTERVAL = setInterval(() => {
+            curScene.update(); 
+        }, 100);
+    }
+    
+    this.updateStop = function(){
+        clearInterval(INTERVAL);
+        INTERVAL = null;
+    };
 
     this.repaint = function(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         curScene.render();
-    };
-
-    this.stop = function(){
-        clearInterval(this.update);
     };
 
     this.changeScene = function(scene, data){
@@ -56,12 +59,14 @@ var UIManager = new function(){
 
         Loading.start();
         curScene.destroy(function(){
+            UIManager.updateStop();
             console.log(curScene.toString() + " Destroy!!");
             curScene = scene;
             curScene.init(function(){
                 console.log(curScene.toString() + " Init!!");
                 curScene.start(function(){
                     console.log(curScene.toString() + " Start!!");
+                    UIManager.updateStart();
                     Loading.stop();
                 });
             }, data);
@@ -134,7 +139,7 @@ var Loading = new function(){
     this.stop = function(){
         $('#loading').hide();
         $('#container').show();
-        $('#keyArea').show();
+        // $('#keyArea').show();
     }
 
     this.isLoading = function(){

@@ -1,5 +1,12 @@
 //type => 0 : 벽돌, 1 : 물, 2 : 빙판, 3 : 바위, 4 : 물고기, 5 : 녹는 빙판, 6 : 이글루
 
+let wallImg;
+let waterImg;
+let iceImg;
+let rockImg;
+let fishImg;
+let iglooImg;
+
 function MapObject(){}
 MapObject.prototype.img = null;
 MapObject.prototype.name = null;
@@ -23,7 +30,7 @@ Wall.prototype.type = null;
 Wall.prototype.init = function(){
     this.name = "wall";
     this.type = NUM_WALL;
-    Util.imgLoad(this.img = new Image(), "resource/object/wall.png");
+    this.img = wallImg;
 }
 
 function Water(){}
@@ -34,7 +41,7 @@ Water.prototype.type = null;
 Water.prototype.init = function(){
     this.name = "water";
     this.type = NUM_WATER;
-    Util.imgLoad(this.img = new Image(), "resource/object/map.png");
+    this.img = waterImg;
 }
 
 function Ice(){}
@@ -45,7 +52,7 @@ Ice.prototype.type = null;
 Ice.prototype.init = function(){
     this.name = "ice";
     this.type = NUM_ICE;
-    Util.imgLoad(this.img = new Image(), "resource/object/ice2.png");
+    this.img = iceImg;
 }
 
 function Rock(){}
@@ -56,7 +63,7 @@ Rock.prototype.type = null;
 Rock.prototype.init = function(){
     this.name = "rock";
     this.type = NUM_ROCK;
-    Util.imgLoad(this.img = new Image(), "resource/object/rock.png");
+    this.img = rockImg;
 }
 
 function Fish(){
@@ -69,8 +76,8 @@ Fish.prototype.type = null;
 Fish.prototype.init = function(){
     this.name = "fish";
     this.type = NUM_FISH;
+    this.img = fishImg;
     this.count = 0;
-    Util.imgLoad(this.img = new Image(), "resource/object/fish.png");
 }
 Fish.prototype.render = function(x, y){
     this.count++;
@@ -86,5 +93,5 @@ Igloo.prototype.type = null;
 Igloo.prototype.init = function(){
     this.name = "igloo";
     this.type = NUM_IGLOO;
-    Util.imgLoad(this.img = new Image(), "resource/object/igloo.png");
+    this.img = iglooImg;
 }
