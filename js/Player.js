@@ -4,8 +4,6 @@ var Player = function(data){
     var score;
     
     var charIdx;
-    var startPosX;
-    var startPosY;
 
     //실제 화면에 출력됨
 	var _x;
@@ -23,20 +21,26 @@ var Player = function(data){
 
     var isMove;
     var isSliding;
+    var isWater;
 
     var slidingX;
     var slidingY;
-	
+
+    var curIce;
+
+    var tempX;
+    var tempY;
+
 	this.init = function(){
         charIdx = [1, 1];
         score = 0;
-        startPosX = 290;
-        startPosY = 50;
         
         isMove = false;
+        isSliding = false;
+        isWater = false;
 
-		_sx = startPosX + ( charIdx[0] * 40);
-		_sy = startPosY + ( charIdx[1] * 40);
+		_sx = START_POS_X + ( charIdx[0] * PIXEL);
+		_sy = START_POS_Y + ( charIdx[1] * PIXEL);
 		
 		_dx = _sx;
 		_dy = _sy;
@@ -45,6 +49,11 @@ var Player = function(data){
 		_y = _dy;
 		
         frameCnt = 0;
+
+        tempX = 0;
+        tempY = 0;
+ 
+        curIce = MapManager.getMapObject(charIdx[0], charIdx[1]);
 	}
 
 	this.update = function(){
@@ -52,27 +61,38 @@ var Player = function(data){
             frameCnt++;
             _x = linearTween( frameCnt, _sx, _dx - _sx, 5 );
             _y = linearTween( frameCnt, _sy, _dy - _sy, 5 );
+
+            //얼음이 플레이어 따라 움직어야함
+			if(curIce != null && isSliding){
+				curIce.update( _x, _y );
+            }
+            
+            if(frameCnt == 5 && isWater) {
+                //얼음 이동이 끝난 뒤에 남은 자리를 물로 채운다
+                var water = new Water();
+                water.init();
+                MapManager.setMapObject(tempX, tempY, water);
+            }
         }else{
             frameCnt = 0;
             isMove = 0;
 
             if(isSliding){
-                console.log(slidingX + ", " + slidingY);
 				collision(slidingX, slidingY);
 			}
         }
 	}
 	
 	this.render = function(){
-        charObj.render(_x, _y, 40, 40);
+        charObj.render(_x, _y, PIXEL, PIXEL);
     }
 
     this.destroy = function(){
         charObj = null;
         score = null;
         charIdx = null;
-        startPosX = null;
-        startPosY = null;
+        START_POS_X = null;
+        START_POS_Y = null;
     }
 
 	this.keyAction = function( keyCode ) {
@@ -136,26 +156,32 @@ var Player = function(data){
 
     var wallCollision = function(){
         isMove = false;
-		isSliding = false;
+        isSliding = false;
+        isWater = false;
         console.log("Collision wall...");
     }
 
     var WaterCollision = function(moveX, moveY){
         isSliding = true;
         isMove = true;
+        isWater = true;
 
+        //얼음도 플레이어와 같이 옮겨져야함
+		var tmp = MapManager.getMapObject(charIdx[0], charIdx[1]);
         MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
+        tempX = charIdx[0];
+        tempY = charIdx[1];
 
-		_sx = startPosX + ( charIdx[0] * 40);
-		_sy = startPosY + ( charIdx[1] * 40);
+		_sx = START_POS_X + ( charIdx[0] * PIXEL);
+		_sy = START_POS_Y + ( charIdx[1] * PIXEL);
 		
 		charIdx[0] = charIdx[0] + moveX;
 		charIdx[1] = charIdx[1] + moveY;
-
-		MapManager.setMapData(charIdx[0], charIdx[1], NUM_ICE);
 		
-		_dx = startPosX + ( charIdx[0] * 40);
-		_dy = startPosY + ( charIdx[1] * 40);
+		_dx = START_POS_X + ( charIdx[0] * PIXEL);
+        _dy = START_POS_Y + ( charIdx[1] * PIXEL);
+        
+        MapManager.setMapObject(charIdx[0], charIdx[1], tmp);
 
         console.log("Collision Water...");
     }
@@ -166,43 +192,49 @@ var Player = function(data){
 			return;
 		}
         isMove = true;
+        isWater = false;
 
-        _sx = startPosX + ( charIdx[0] * 40);
-		_sy = startPosY + ( charIdx[1] * 40);
+        _sx = START_POS_X + ( charIdx[0] * PIXEL);
+		_sy = START_POS_Y + ( charIdx[1] * PIXEL);
 		
 		charIdx[0] = charIdx[0] + moveX;
 		charIdx[1] = charIdx[1] + moveY;
 		
-		_dx = startPosX + ( charIdx[0] * 40);
-        _dy = startPosY + ( charIdx[1] * 40);
-        
-        MapManager.setMapData(charIdx[0], charIdx[1], NUM_ICE);
+		_dx = START_POS_X + ( charIdx[0] * PIXEL);
+        _dy = START_POS_Y + ( charIdx[1] * PIXEL);
 
+        curIce = MapManager.getMapObject(charIdx[0], charIdx[1]);
         console.log("Collision Ice...");
     }
 
     var RockCollision = function(){
         isMove = false;
-		isSliding = false;
+        isSliding = false;
+        isWater = false;
         console.log("Collision Rock...");
     }
 
     var FishCollision = function(moveX, moveY){
         isSliding = true;
         isMove = true;
+        isWater = true;
 
+        //얼음도 플레이어와 같이 옮겨져야함
+		var tmp = MapManager.getMapObject(charIdx[0], charIdx[1]);
         MapManager.setMapData(charIdx[0], charIdx[1], NUM_WATER);
+        tempX = charIdx[0];
+        tempY = charIdx[1];
 
-		_sx = startPosX + ( charIdx[0] * 40);
-		_sy = startPosY + ( charIdx[1] * 40);
+		_sx = START_POS_X + ( charIdx[0] * PIXEL);
+		_sy = START_POS_Y + ( charIdx[1] * PIXEL);
 		
 		charIdx[0] = charIdx[0] + moveX;
 		charIdx[1] = charIdx[1] + moveY;
 
-		MapManager.setMapData(charIdx[0], charIdx[1], NUM_ICE);
-		
-		_dx = startPosX + ( charIdx[0] * 40);
-        _dy = startPosY + ( charIdx[1] * 40);
+		_dx = START_POS_X + ( charIdx[0] * PIXEL);
+        _dy = START_POS_Y + ( charIdx[1] * PIXEL);
+
+        MapManager.setMapObject(charIdx[0], charIdx[1], tmp);
         
         score++;
 
@@ -216,15 +248,16 @@ var Player = function(data){
         }
         
         isMove = true;
+        isWater = false;
         
-        _sx = startPosX + ( charIdx[0] * 40);
-		_sy = startPosY + ( charIdx[1] * 40);
+        _sx = START_POS_X + ( charIdx[0] * PIXEL);
+		_sy = START_POS_Y + ( charIdx[1] * PIXEL);
 		
 		charIdx[0] = charIdx[0] + moveX;
 		charIdx[1] = charIdx[1] + moveY;
 		
-		_dx = startPosX + ( charIdx[0] * 40);
-        _dy = startPosY + ( charIdx[1] * 40);
+		_dx = START_POS_X + ( charIdx[0] * PIXEL);
+        _dy = START_POS_Y + ( charIdx[1] * PIXEL);
         
         console.log("Collision Igloo...");
     }

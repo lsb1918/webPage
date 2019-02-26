@@ -8,12 +8,15 @@ let fishImg;
 let iglooImg;
 
 function MapObject(){}
+MapObject.prototype.x = null;
+MapObject.prototype.y = null;
 MapObject.prototype.img = null;
 MapObject.prototype.name = null;
 MapObject.prototype.type = null;
 MapObject.prototype.init = function(){}
-MapObject.prototype.render = function(x, y){
-    ctx.drawImage(this.img, x, y, 40, 40);
+MapObject.prototype.update = function(x, y){}
+MapObject.prototype.render = function(){
+    ctx.drawImage(this.img, this.x, this.y, PIXEL, PIXEL);
 }
 MapObject.prototype.getString = function(){
     return this.name;
@@ -24,10 +27,9 @@ MapObject.prototype.getType = function(){
 
 function Wall(){}
 Wall.prototype = new MapObject();
-Wall.prototype.img = null;
-Wall.prototype.name = null;
-Wall.prototype.type = null;
-Wall.prototype.init = function(){
+Wall.prototype.init = function(x, y){
+    this.x = x;
+    this.y = y;
     this.name = "wall";
     this.type = NUM_WALL;
     this.img = wallImg;
@@ -35,10 +37,9 @@ Wall.prototype.init = function(){
 
 function Water(){}
 Water.prototype = new MapObject();
-Water.prototype.img = null;
-Water.prototype.name = null;
-Water.prototype.type = null;
-Water.prototype.init = function(){
+Water.prototype.init = function(x, y){
+    this.x = x;
+    this.y = y;
     this.name = "water";
     this.type = NUM_WATER;
     this.img = waterImg;
@@ -46,21 +47,23 @@ Water.prototype.init = function(){
 
 function Ice(){}
 Ice.prototype = new MapObject();
-Ice.prototype.img = null;
-Ice.prototype.name = null;
-Ice.prototype.type = null;
-Ice.prototype.init = function(){
+Ice.prototype.init = function(x, y){
+    this.x = x;
+    this.y = y;
     this.name = "ice";
     this.type = NUM_ICE;
     this.img = iceImg;
 }
+Ice.prototype.update = function(x, y){
+    this.x = x;
+    this.y = y;
+}
 
 function Rock(){}
 Rock.prototype = new MapObject();
-Rock.prototype.img = null;
-Rock.prototype.name = null;
-Rock.prototype.type = null;
-Rock.prototype.init = function(){
+Rock.prototype.init = function(x, y){
+    this.x = x;
+    this.y = y;
     this.name = "rock";
     this.type = NUM_ROCK;
     this.img = rockImg;
@@ -70,27 +73,25 @@ function Fish(){
     this.count;
 }
 Fish.prototype = new MapObject();
-Fish.prototype.img = null;
-Fish.prototype.name = null;
-Fish.prototype.type = null;
-Fish.prototype.init = function(){
+Fish.prototype.init = function(x, y){
+    this.x = x;
+    this.y = y;
     this.name = "fish";
     this.type = NUM_FISH;
     this.img = fishImg;
     this.count = 0;
 }
-Fish.prototype.render = function(x, y){
+Fish.prototype.render = function(){
     this.count++;
     if(this.count > 4) this.count = 0;
-    ctx.drawImage(this.img, x, y + this.count, 40, 40);
+    ctx.drawImage(this.img, this.x, this.y + this.count, PIXEL, PIXEL);
 }
 
 function Igloo(){}
 Igloo.prototype = new MapObject();
-Igloo.prototype.img = null;
-Igloo.prototype.name = null;
-Igloo.prototype.type = null;
-Igloo.prototype.init = function(){
+Igloo.prototype.init = function(x, y){
+    this.x = x;
+    this.y = y;
     this.name = "igloo";
     this.type = NUM_IGLOO;
     this.img = iglooImg;

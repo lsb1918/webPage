@@ -11,3 +11,8 @@ let NUM_ICE = 2;
 let NUM_ROCK = 3;
 let NUM_FISH = 4;
 let NUM_IGLOO = 5;
+
+let START_POS_X = 290;
+let START_POS_Y = 50;
+
+let PIXEL = 40;

@@ -1,32 +1,32 @@
 var MapManager = new function(){
-    var objects;
     var mapObject;
     var mapData;
-
-    var waterImg;
     
     this.init = function(onLoad){
         this.initMapData();
-        objects = [
-            new Wall(),
-            new Water(),
-            new Ice(),
-            new Rock(),
-            new Fish(),
-            new Igloo()
-        ];
 
-        mapObject = [[], []];
-        for(var i = 0; i < mapData.length - 1; i++){
-            for(var j = 0; j < mapData[0].length - 1; j++){
-                console.log(objects[mapData[i][j]]);
-                console.log(mapData[i][j]);
-                mapObject[i][j] = objects[mapData[i][j]];
-                mapObject[i][j].init();
+        //2차원배열 선언
+        mapObject = Array.from(Array(mapData.length), () => Array());
+        for(var i = 0; i < mapData.length; i++){
+            for(var j = 0; j < mapData[0].length; j++){
+                if(mapData[i][j] == NUM_WALL) {
+                    mapObject[i].push(new Wall());
+                }else if(mapData[i][j] == NUM_WATER){
+                    mapObject[i].push(new Water());
+                }else if(mapData[i][j] == NUM_ICE){
+                    mapObject[i].push(new Ice());
+                }else if(mapData[i][j] == NUM_ROCK){
+                    mapObject[i].push(new Rock());
+                }else if(mapData[i][j] == NUM_FISH){
+                    mapObject[i].push(new Fish());
+                }else if(mapData[i][j] == NUM_IGLOO){
+                    mapObject[i].push(new Igloo());
+                }
+                mapObject[i][j].init(START_POS_X + (PIXEL * i), START_POS_Y + (PIXEL * j));
             }
         }
+
         onLoad();
-        console.log(mapObject);
     }
 
     this.initMapData = function(){
@@ -48,8 +48,8 @@ var MapManager = new function(){
     this.render = function(){
         for(var i = 0; i < mapData.length; i++){
             for(var j = 0; j < mapData[0].length; j++){
-                ctx.drawImage(waterImg, 290 + (40 * i), 50 + (40 * j), 40, 40);
-                mapObject[i][j].render(290 + (40 * i), 50 + (40 * j));
+                ctx.drawImage(waterImg, START_POS_X + (PIXEL * i), START_POS_Y + (PIXEL * j), PIXEL, PIXEL);
+                mapObject[i][j].render();
             }
         }
     }
@@ -68,7 +68,26 @@ var MapManager = new function(){
 
     this.setMapData = function(x, y, data){
         mapData[x][y] = data;
-        mapObject[x][y] = objects[data];
+
+        // if(data == NUM_WALL) {
+        //     mapObject[x][y] = new Wall();
+        // }else if(data == NUM_WATER){
+        //     mapObject[x][y] = new Water();
+        // }else if(data == NUM_ICE){
+        //     mapObject[x][y] = new Ice();
+        // }else if(data == NUM_ROCK){
+        //     mapObject[x][y] = new Rock();
+        // }else if(data == NUM_FISH){
+        //     mapObject[x][y] = new Fish();
+        // }else if(data == NUM_IGLOO){
+        //     mapObject[x][y] = new Igloo();
+        // }
+
+        // mapObject[x][y].init(START_POS_X + (PIXEL * x), START_POS_Y + (PIXEL * y));
+    }
+
+    this.setMapObject = function(x, y, object){
+        mapObject[x][y] = object;
     }
 
     this.getMapObject = function(x, y){
