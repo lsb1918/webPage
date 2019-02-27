@@ -45,9 +45,3 @@ var GameScene = new function(){
         }
     };
 };
-
-var Popup = new function(){
-    this.render = function(){
-
-    }
-}
