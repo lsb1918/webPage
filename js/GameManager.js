@@ -5,8 +5,10 @@ var GameManager = new function(){
     var curBehavior;
 
     var explainImg;
+    var endImg;
 
     this.init = function(charObj, callback){
+        Util.imgLoad(endImg = new Image(), "resource/end.jpg");
         Util.imgLoad(explainImg = new Image(), "resource/explain.jpg", function(){
             player = new Player(charObj);
             player.init();
@@ -26,7 +28,13 @@ var GameManager = new function(){
     }
 
     this.destroy = function(){
+        player = null;
 
+        behaviors = null;
+        curBehavior = null;
+    
+        explainImg = null;
+        endImg = null;
     }
 
     this.keyPressed = function(keyCode){
@@ -68,14 +76,14 @@ var GameManager = new function(){
                 ctx.font = "bold 20px malgun gothic";
                 ctx.fillText("ESC : 뒤로가기", 20, 50);
 
-                ctx.drawImage(explainImg, 20, 50, 940, 490);
+                ctx.drawImage(explainImg, 30, 50, 940, 480);
             }
             this.keyAction = function(keyCode){
-                if(keyCode == KEY_PREV) GameManager.setBehavior(STATE_PLAY);
+                if(keyCode == KEY_PREV || keyCode == "69") GameManager.setBehavior(STATE_PLAY);
             }
         };
 
-        // //게임 종료 팝업
+        // //게임 종료 확인 팝업
         behaviors[STATE_EXIT] = new function(){
             var focusX = [290, 530];
             var focusIdx;
@@ -89,6 +97,13 @@ var GameManager = new function(){
                 ctx.font = "bold 30px malgun gothic";
                 ctx.fillText("게임을 종료하시겠습니까?", 300, 200);
 
+                ctx.fillStyle = "#000000";
+                ctx.font = "bold 30px malgun gothic";
+                var width = ctx.measureText("예").width;
+                ctx.fillText("예", 290 + (140 / 2) - (width / 2), 300 + 33);
+                width = ctx.measureText("아니오").width;
+                ctx.fillText("아니오", 530 + (140 / 2) - (width / 2), 300 + 33);
+
                 ctx.strokeStyle = "#000000";
                 ctx.lineWidth = 2;
                 ctx.strokeRect(290, 300, 140, 50);
@@ -101,7 +116,27 @@ var GameManager = new function(){
             }
             this.keyAction = function(keyCode){
                 if(keyCode == KEY_ENTER) {
-                    GameManager.setBehavior(STATE_PLAY);
+                    if(focusIdx == 0){
+                        UIManager.changeScene(TitleScene);
+                    }else{
+                        GameManager.setBehavior(STATE_PLAY);
+                    }
+                }else if(keyCode == KEY_LEFT || keyCode == KEY_RIGHT){
+                    focusIdx = focusIdx == 0 ? 1 : 0;
+                }
+            }
+        }
+
+        // //게임 종료 확인 팝업
+        behaviors[STATE_END] = new function(){
+            this.init = function(){}
+            this.update = function(){}
+            this.render = function(){
+                ctx.drawImage(endImg, 100, 100);
+            }
+            this.keyAction = function(keyCode){
+                if(keyCode == KEY_ENTER) {
+                    UIManager.changeScene(TitleScene);
                 }
             }
         };

@@ -68,22 +68,6 @@ var MapManager = new function(){
 
     this.setMapData = function(x, y, data){
         mapData[x][y] = data;
-
-        // if(data == NUM_WALL) {
-        //     mapObject[x][y] = new Wall();
-        // }else if(data == NUM_WATER){
-        //     mapObject[x][y] = new Water();
-        // }else if(data == NUM_ICE){
-        //     mapObject[x][y] = new Ice();
-        // }else if(data == NUM_ROCK){
-        //     mapObject[x][y] = new Rock();
-        // }else if(data == NUM_FISH){
-        //     mapObject[x][y] = new Fish();
-        // }else if(data == NUM_IGLOO){
-        //     mapObject[x][y] = new Igloo();
-        // }
-
-        // mapObject[x][y].init(START_POS_X + (PIXEL * x), START_POS_Y + (PIXEL * y));
     }
 
     this.setMapObject = function(x, y, object){

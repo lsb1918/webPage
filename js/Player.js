@@ -22,6 +22,7 @@ var Player = function(data){
     var isMove;
     var isSliding;
     var isWater;
+    var isGameEnd;
 
     var slidingX;
     var slidingY;
@@ -38,6 +39,7 @@ var Player = function(data){
         isMove = false;
         isSliding = false;
         isWater = false;
+        isGameEnd = false;
 
 		_sx = START_POS_X + ( charIdx[0] * PIXEL);
 		_sy = START_POS_Y + ( charIdx[1] * PIXEL);
@@ -57,21 +59,27 @@ var Player = function(data){
 	}
 
 	this.update = function(){
-        if(frameCnt < 5 && isMove){
+        if(frameCnt < 3 && isMove){
             frameCnt++;
-            _x = linearTween( frameCnt, _sx, _dx - _sx, 5 );
-            _y = linearTween( frameCnt, _sy, _dy - _sy, 5 );
+            _x = linearTween( frameCnt, _sx, _dx - _sx, 3 );
+            _y = linearTween( frameCnt, _sy, _dy - _sy, 3 );
 
             //얼음이 플레이어 따라 움직어야함
 			if(curIce != null && isSliding){
 				curIce.update( _x, _y );
             }
             
-            if(frameCnt == 5 && isWater) {
-                //얼음 이동이 끝난 뒤에 남은 자리를 물로 채운다
-                var water = new Water();
-                water.init();
-                MapManager.setMapObject(tempX, tempY, water);
+            if(frameCnt == 3) {
+                if(isWater){
+                    //얼음 이동이 끝난 뒤에 남은 자리를 물로 채운다
+                    var water = new Water();
+                    water.init();
+                    MapManager.setMapObject(tempX, tempY, water);
+                }
+            
+                if(isGameEnd){
+                    GameManager.setBehavior(STATE_END);
+                }
             }
         }else{
             frameCnt = 0;
@@ -158,6 +166,7 @@ var Player = function(data){
         isMove = false;
         isSliding = false;
         isWater = false;
+        isGameEnd = false;
         console.log("Collision wall...");
     }
 
@@ -165,6 +174,7 @@ var Player = function(data){
         isSliding = true;
         isMove = true;
         isWater = true;
+        isGameEnd = false;
 
         //얼음도 플레이어와 같이 옮겨져야함
 		var tmp = MapManager.getMapObject(charIdx[0], charIdx[1]);
@@ -193,6 +203,7 @@ var Player = function(data){
 		}
         isMove = true;
         isWater = false;
+        isGameEnd = false;
 
         _sx = START_POS_X + ( charIdx[0] * PIXEL);
 		_sy = START_POS_Y + ( charIdx[1] * PIXEL);
@@ -211,6 +222,7 @@ var Player = function(data){
         isMove = false;
         isSliding = false;
         isWater = false;
+        isGameEnd = false;
         console.log("Collision Rock...");
     }
 
@@ -218,6 +230,7 @@ var Player = function(data){
         isSliding = true;
         isMove = true;
         isWater = true;
+        isGameEnd = false;
 
         //얼음도 플레이어와 같이 옮겨져야함
 		var tmp = MapManager.getMapObject(charIdx[0], charIdx[1]);
@@ -249,6 +262,7 @@ var Player = function(data){
         
         isMove = true;
         isWater = false;
+        isGameEnd = true;
         
         _sx = START_POS_X + ( charIdx[0] * PIXEL);
 		_sy = START_POS_Y + ( charIdx[1] * PIXEL);

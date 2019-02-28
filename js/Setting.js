@@ -21,3 +21,4 @@ let STATE_CNT = 3;
 let STATE_PLAY = 0;
 let STATE_EXPLAIN = 1;
 let STATE_EXIT = 2;
+let STATE_END = 3;
