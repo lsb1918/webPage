@@ -32,6 +32,8 @@ var Player = function(data){
     var tempX;
     var tempY;
 
+    var useCount; //턴 사용 횟수
+
 	this.init = function(){
         charIdx = [1, 1];
         score = 0;
@@ -76,9 +78,13 @@ var Player = function(data){
                     water.init();
                     MapManager.setMapObject(tempX, tempY, water);
                 }
+
+                if(REST_COUNT - useCount == 0){
+                    GameManager.setBehavior(STATE_GAME_OVER);
+                }
             
                 if(isGameEnd){
-                    GameManager.setBehavior(STATE_END);
+                    GameManager.setBehavior(STATE_GAME_CLEAR);
                 }
             }
         }else{
@@ -112,15 +118,19 @@ var Player = function(data){
             case KEY_ENTER:
                 break;
             case KEY_UP :
+                useCount++;
                 collision(0, -1);
                 break;
             case KEY_DOWN :
+                useCount++;
                 collision(0, 1);
                 break;
             case KEY_LEFT :
+                useCount++;
                 collision(-1, 0);
                 break;
             case KEY_RIGHT :
+                useCount++;
                 collision(1, 0);
                 break;
             default:
@@ -142,6 +152,7 @@ var Player = function(data){
 
         switch(nextObjType){
             case NUM_WALL :
+                useCount--;
                 wallCollision();
                 break;
             case NUM_WATER :
@@ -151,12 +162,14 @@ var Player = function(data){
                 IceCollision(moveX, moveY);
                 break;
             case NUM_ROCK :
+                useCount--;
                 RockCollision();
                 break;
             case NUM_FISH :
                 FishCollision(moveX, moveY);
                 break;
             case NUM_IGLOO :
+                useCount--;
                 IglooCollision(moveX, moveY);
                 break;
         }

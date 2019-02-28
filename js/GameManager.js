@@ -5,10 +5,12 @@ var GameManager = new function(){
     var curBehavior;
 
     var explainImg;
-    var endImg;
+    var clearImg;
+    var gameoverImg;
 
     this.init = function(charObj, callback){
-        Util.imgLoad(endImg = new Image(), "resource/end.jpg");
+        Util.imgLoad(clearImg = new Image(), "resource/clear.jpg");
+        Util.imgLoad(gameoverImg = new Image(), "resource/gameover.jpg");
         Util.imgLoad(explainImg = new Image(), "resource/explain.jpg", function(){
             player = new Player(charObj);
             player.init();
@@ -34,7 +36,7 @@ var GameManager = new function(){
         curBehavior = null;
     
         explainImg = null;
-        endImg = null;
+        clearImg = null;
     }
 
     this.keyPressed = function(keyCode){
@@ -123,16 +125,18 @@ var GameManager = new function(){
                     }
                 }else if(keyCode == KEY_LEFT || keyCode == KEY_RIGHT){
                     focusIdx = focusIdx == 0 ? 1 : 0;
+                }else if(keyCode == KEY_PREV){
+                    GameManager.setBehavior(STATE_PLAY);
                 }
             }
         }
 
-        // //게임 종료 확인 팝업
-        behaviors[STATE_END] = new function(){
+        //게임 클리어 화면
+        behaviors[STATE_GAME_CLEAR] = new function(){
             this.init = function(){}
             this.update = function(){}
             this.render = function(){
-                ctx.drawImage(endImg, 100, 100);
+                ctx.drawImage(clearImg, 100, 100);
             }
             this.keyAction = function(keyCode){
                 if(keyCode == KEY_ENTER) {
@@ -141,6 +145,20 @@ var GameManager = new function(){
             }
         };
 
+        //게임 오버 화면
+        behaviors[STATE_GAME_OVER] = new function(){
+            this.init = function(){}
+            this.update = function(){}
+            this.render = function(){
+                ctx.drawImage(gameoverImg, 100, 100);
+            }
+            this.keyAction = function(keyCode){
+                if(keyCode == KEY_ENTER) {
+                    UIManager.changeScene(TitleScene);
+                }
+            }
+        };
+        
         this.setBehavior(STATE_PLAY);
     }
 
