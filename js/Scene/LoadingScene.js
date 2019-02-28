@@ -1,13 +1,13 @@
 var LoadingScene = new function(){
+    //GameScene에서 필요한 data 및 resource 구성
+
     var loadingImg;
     var loadingWidth;
-    var charObj;
 
     return{
         init: function(onLoad, data) {
-            charObj = data;
             loadingWidth = 20;
-            
+
             Util.imgLoad(loadingImg = new Image(), "resource/loading.png");
             Util.imgLoad(wallImg = new Image(), "resource/object/wall.png");
             Util.imgLoad(waterImg = new Image(), "resource/object/map.png");
@@ -16,9 +16,10 @@ var LoadingScene = new function(){
             Util.imgLoad(fishImg = new Image(), "resource/object/fish.png");
             Util.imgLoad(iglooImg = new Image(), "resource/object/igloo.png", function(){
                 loadingWidth += 30;
-                MapManager.init(onLoad);
+                MapManager.init(function(){
+                    GameManager.init(data, onLoad);
+                });
             });
-            
         },
         start: function(onLoad) {
             onLoad();
@@ -28,7 +29,7 @@ var LoadingScene = new function(){
                 loadingWidth += 30;
             }else {
                 loadingWidth = 350;
-                UIManager.changeScene(GameScene, charObj);
+                UIManager.changeScene(GameScene);
             }
             UIManager.repaint();
         },

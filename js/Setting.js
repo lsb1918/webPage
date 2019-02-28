@@ -16,3 +16,8 @@ let START_POS_X = 290;
 let START_POS_Y = 50;
 
 let PIXEL = 40;
+
+let STATE_CNT = 3;
+let STATE_PLAY = 0;
+let STATE_EXPLAIN = 1;
+let STATE_EXIT = 2;
