@@ -49,6 +49,6 @@ function Wari(){}
 Wari.prototype = new Character();
 Wari.prototype.init = function(){
     this.name = "워리";
-    Util.imgLoad(this.img = new Image(), "resource/character/wari.png");
+    Util.imgLoad(this.img = new Image(), "resource/character/wari2.gif");
 }
 

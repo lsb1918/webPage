@@ -56,6 +56,8 @@ var Player = function(data){
 
         tempX = 0;
         tempY = 0;
+
+        useCount = 0;
  
         curIce = MapManager.getMapObject(charIdx[0], charIdx[1]);
 	}
@@ -79,12 +81,12 @@ var Player = function(data){
                     MapManager.setMapObject(tempX, tempY, water);
                 }
 
-                if(REST_COUNT - useCount == 0){
-                    GameManager.setBehavior(STATE_GAME_OVER);
-                }
-            
                 if(isGameEnd){
                     GameManager.setBehavior(STATE_GAME_CLEAR);
+                }
+
+                if(REST_COUNT - useCount == 0){
+                    GameManager.setBehavior(STATE_GAME_OVER);
                 }
             }
         }else{
@@ -118,19 +120,15 @@ var Player = function(data){
             case KEY_ENTER:
                 break;
             case KEY_UP :
-                useCount++;
                 collision(0, -1);
                 break;
             case KEY_DOWN :
-                useCount++;
                 collision(0, 1);
                 break;
             case KEY_LEFT :
-                useCount++;
                 collision(-1, 0);
                 break;
             case KEY_RIGHT :
-                useCount++;
                 collision(1, 0);
                 break;
             default:
@@ -152,7 +150,6 @@ var Player = function(data){
 
         switch(nextObjType){
             case NUM_WALL :
-                useCount--;
                 wallCollision();
                 break;
             case NUM_WATER :
@@ -162,14 +159,12 @@ var Player = function(data){
                 IceCollision(moveX, moveY);
                 break;
             case NUM_ROCK :
-                useCount--;
                 RockCollision();
                 break;
             case NUM_FISH :
                 FishCollision(moveX, moveY);
                 break;
             case NUM_IGLOO :
-                useCount--;
                 IglooCollision(moveX, moveY);
                 break;
         }
