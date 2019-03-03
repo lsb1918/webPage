@@ -106,6 +106,7 @@ var Player = function(data){
     this.destroy = function(){
         charObj = null;
         score = null;
+        useCount = null;
         charIdx = null;
         START_POS_X = null;
         START_POS_Y = null;
@@ -120,16 +121,16 @@ var Player = function(data){
             case KEY_ENTER:
                 break;
             case KEY_UP :
-                collision(0, -1);
+                collision(0, -1, true);
                 break;
             case KEY_DOWN :
-                collision(0, 1);
+                collision(0, 1, true);
                 break;
             case KEY_LEFT :
-                collision(-1, 0);
+                collision(-1, 0, true);
                 break;
             case KEY_RIGHT :
-                collision(1, 0);
+                collision(1, 0, true);
                 break;
             default:
                 break;
@@ -140,7 +141,11 @@ var Player = function(data){
         return score;
     }
 
-    var collision = function(moveX, moveY){
+    this.getRestCount = function(){
+        return REST_COUNT - useCount;
+    }
+
+    var collision = function(moveX, moveY, isKeyPressed){
         slidingX = moveX;
         slidingY = moveY;
         var nextIdxX = charIdx[0] + moveX;
@@ -153,7 +158,7 @@ var Player = function(data){
                 wallCollision();
                 break;
             case NUM_WATER :
-                WaterCollision(moveX, moveY);
+                WaterCollision(moveX, moveY, isKeyPressed);
                 break;
             case NUM_ICE :
                 IceCollision(moveX, moveY);
@@ -162,7 +167,7 @@ var Player = function(data){
                 RockCollision();
                 break;
             case NUM_FISH :
-                FishCollision(moveX, moveY);
+                FishCollision(moveX, moveY, isKeyPressed);
                 break;
             case NUM_IGLOO :
                 IglooCollision(moveX, moveY);
@@ -178,7 +183,9 @@ var Player = function(data){
         console.log("Collision wall...");
     }
 
-    var WaterCollision = function(moveX, moveY){
+    var WaterCollision = function(moveX, moveY, isKeyPressed){
+        if(isKeyPressed) useCount++;
+
         isSliding = true;
         isMove = true;
         isWater = true;
@@ -234,7 +241,9 @@ var Player = function(data){
         console.log("Collision Rock...");
     }
 
-    var FishCollision = function(moveX, moveY){
+    var FishCollision = function(moveX, moveY, isKeyPressed){
+        if(isKeyPressed) useCount++;
+
         isSliding = true;
         isMove = true;
         isWater = true;

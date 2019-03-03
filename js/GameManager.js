@@ -58,6 +58,7 @@ var GameManager = new function(){
                 ctx.fillText("ESC : 게임종료", 20, 50);
                 ctx.fillText("E : 게임 설명", 20, 80);
                 ctx.fillText("Score : " + player.getScore(), 20, 110);
+                ctx.fillText("남은 이동횟수 : " + player.getRestCount() + "회", 20, 140);
 
                 MapManager.render();
                 player.render();
