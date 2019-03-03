@@ -134,10 +134,16 @@ var GameManager = new function(){
 
         //게임 클리어 화면
         behaviors[STATE_GAME_CLEAR] = new function(){
-            this.init = function(){}
-            this.update = function(){}
+            this.init = function(){
+            }
+            this.update = function(){
+            }
             this.render = function(){
                 ctx.drawImage(clearImg, 100, 100);
+                ctx.fillStyle = "#000000";
+                ctx.font = "bold 30px malgun gothic";
+                ctx.fillText("축하합니다.", 500, 200);
+                ctx.fillText("게임을 클리어하셨습니다.", 500, 250);
             }
             this.keyAction = function(keyCode){
                 if(keyCode == KEY_ENTER) {
@@ -152,6 +158,10 @@ var GameManager = new function(){
             this.update = function(){}
             this.render = function(){
                 ctx.drawImage(gameoverImg, 100, 100);
+                ctx.fillStyle = "#000000";
+                ctx.font = "bold 30px malgun gothic";
+                ctx.fillText("기회를 모두 사용하셨습니다..", 400, 200);
+                ctx.fillText("다시 도전해주세요.", 400, 250);
             }
             this.keyAction = function(keyCode){
                 if(keyCode == KEY_ENTER) {

@@ -184,7 +184,7 @@ var Player = function(data){
     }
 
     var WaterCollision = function(moveX, moveY, isKeyPressed){
-        if(isKeyPressed) useCount++;
+        if(isKeyPressed) useCount++; //키 입력이 들어갔을 때만 userCount 증가시킴
 
         isSliding = true;
         isMove = true;
