@@ -79,7 +79,7 @@ var GameManager = new function(){
                 ctx.font = "bold 20px malgun gothic";
                 ctx.fillText("ESC : 뒤로가기", 20, 50);
 
-                ctx.drawImage(explainImg, 30, 50, 940, 480);
+                ctx.drawImage(explainImg, 150, 60, 670, 470);
             }
             this.keyAction = function(keyCode){
                 if(keyCode == KEY_PREV || keyCode == "69") GameManager.setBehavior(STATE_PLAY);
@@ -134,10 +134,8 @@ var GameManager = new function(){
 
         //게임 클리어 화면
         behaviors[STATE_GAME_CLEAR] = new function(){
-            this.init = function(){
-            }
-            this.update = function(){
-            }
+            this.init = function(){}
+            this.update = function(){}
             this.render = function(){
                 ctx.drawImage(clearImg, 100, 100);
                 ctx.fillStyle = "#000000";
